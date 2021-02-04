@@ -7,8 +7,21 @@ export default defineConfig({
   plugins: [
     vue(),
     VitePWA({
-      mode: "development",
-      inlineRegister: false
+      manifest: {
+        "name": "Test vue pwa notification",
+        "short_name": "Test vue",
+        "start_url": "index.html",
+        "display": "standalone",
+        "theme_color": "#0476F2",
+        "background_color": "#fff",
+        "icons": [
+          {
+            "src": "/img/logoPWA.png",
+            "sizes": "144x144",
+            "type": "image/png"
+          }
+        ]
+      }
     })
   ]
 })
