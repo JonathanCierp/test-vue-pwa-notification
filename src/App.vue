@@ -1,7 +1,9 @@
 <template>
 	<img alt="Vue logo" src="./assets/logo.png" />
 	<HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
-	{{ token }}
+	<div>
+		{{ token }}
+	</div>
 	<NotificationBox />
 </template>
 
@@ -18,16 +20,24 @@
 			NotificationBox,
 			HelloWorld
 		},
-		setup () {
+		async setup () {
 			const token = ref(null)
 
+			//@ts-ignore
 			if (!("Notification" in window)) {
+				//@ts-ignore
 				alert("This browser does not support desktop notification")
+				//@ts-ignore
 			} else if (Notification.permission === "granted") {
+				//@ts-ignore
 				token.value = await firebase.messaging().getToken()
+				//@ts-ignore
 			} else if (Notification.permission !== "denied") {
-				Notification.requestPermission().then(async function (permission) {
+				//@ts-ignore
+				await Notification.requestPermission().then(async function (permission: any) {
+					//@ts-ignore
 					if (permission === "granted") {
+						//@ts-ignore
 						token.value = await firebase.messaging().getToken()
 					}
 					console.log(token.value)
