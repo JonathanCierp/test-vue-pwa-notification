@@ -14,6 +14,8 @@ export default defineConfig({
         "display": "standalone",
         "theme_color": "#0476F2",
         "background_color": "#fff",
+        //@ts-ignore
+        "gcm_sender_id": "224931150973",
         "icons": [
           {
             "src": "/img/logoPWA.png",
