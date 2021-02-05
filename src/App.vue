@@ -30,10 +30,12 @@
 						token = await firebase.messaging().getToken()
 					}
 					console.log(token)
+					prompt("zaezea", token)
 				})
 			}
 			
 			console.log(token)
+			prompt("zaezea", token)
 		}
 	})
 </script>
