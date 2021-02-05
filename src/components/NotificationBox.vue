@@ -1,7 +1,7 @@
 <template>
 	<div v-if="notify">
 		<div id="notification-box" class="notification-box">
-			<a id="notification-close" href="#" title="close" @click="closed()">x</a>
+			<a id="notification-close" href="#" title="close">x</a>
 
 			<div class="notification-data">
 				<div class="notification-title">
