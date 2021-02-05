@@ -20,71 +20,65 @@
 	</div>
 </template>
 
-<script>
-	import {defineComponent} from "vue"
+<script lang="ts">
+	import {defineComponent, ref} from "vue"
 	import firebase from "firebase/app"
 	import "firebase/messaging"
 
 	export default defineComponent({
 		name: "NotificationBox",
+		setup() {
+			const title = ref(null)
+			const from = ref(null)
+			const subject = ref(null)
+			const userimg = ref(null)
+			const messaging = ref(firebase.messaging())
+			const currentMessage = ref(null)
+			const notify = ref(false)
 
-		components: {},
-
-		data() {
-			return {
-				title: "",
-				from: "",
-				subject: "",
-				userimg: "",
-				messaging: firebase.messaging(),
-				currentMessage: "",
-				notify: false
-			}
-		},
-
-		methods: {
-			receiveMessage() {
+			const receiveMessage = () => {
 				try {
-					this.messaging.onMessage((payload) => {
-						// debugger
-						this.currentMessage = payload
-						console.log(this.currentMessage)
+					messaging.value.onMessage((payload) => {
+						currentMessage.value = payload
+						console.log(currentMessage.value)
 						console.log("Message received. ", payload)
-						let message
-						message =
-								payload.data.username + ":\n\n" + payload.data.message
-						this.setNotificationBoxForm(
+						let message = payload.data.username + ":\n\n" + payload.data.message
+						setNotificationBoxForm(
 								payload.data.shipmentWallNumber,
 								payload.data.username,
 								payload.data.message
 						)
 						console.log(message)
-						this.notify = true
+						notify.value = true
 						setTimeout(() => {
-							this.notify = false
+							notify.value = false
 						}, 3000)
 					})
-				} catch(e) {
+				}catch(e) {
 					console.log(e)
 				}
-			},
-
-			setNotificationBoxForm(title, from, subject) {
-				this.title = title
-				this.from = from
-				this.subject = subject
 			}
-		},
 
-		created() {
-			this.receiveMessage()
-		},
+			const setNotificationBoxForm = (titleP: any, fromP: any, subjectP: any) => {
+				title.value = titleP
+				from.value = fromP
+				subject.value = subjectP
+			}
 
-		validations: function() {
-			return {}
-		},
+			receiveMessage()
 
-		computed: {}
+			return {
+				title,
+				from,
+				subject,
+				userimg,
+				messaging,
+				currentMessage,
+				notify,
+				receiveMessage,
+				setNotificationBoxForm
+			}
+		}
 	})
 </script>
 

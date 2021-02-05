@@ -16,9 +16,8 @@ firebase.initializeApp({
 });
 
 navigator.serviceWorker.register("firebase-messaging-sw.js", { scope: "firebase-cloud-messaging-push-scope" })
-    .then((registration) => {
-      const messaging = firebase.messaging();
-      messaging.useServiceWorker(registration);
+    .then(async (serviceWorkerRegistration) => {
+      await firebase.messaging().getToken({ serviceWorkerRegistration });
     })
     .catch(err => {
       console.log(err)

@@ -17,19 +17,23 @@
 			NotificationBox,
 			HelloWorld
 		},
-		created () {
-			firebase
-				.messaging()
-				.requestPermission()
-				.then(() => {
-					console.log("NOTIF PERMISSION GRANTED")
-					return firebase
-						.messaging()
-						.getToken()
-						.then(token => {
-							console.log(token)
-						})
+		async created () {
+			let token: string = ""
+
+			if (!("Notification" in window)) {
+				alert("This browser does not support desktop notification")
+			} else if (Notification.permission === "granted") {
+				token = await firebase.messaging().getToken()
+			} else if (Notification.permission !== "denied") {
+				Notification.requestPermission().then(async function (permission) {
+					if (permission === "granted") {
+						token = await firebase.messaging().getToken()
+					}
+					console.log(token)
 				})
+			}
+			
+			console.log(token)
 		}
 	})
 </script>
