@@ -38,7 +38,6 @@
 
 			const receiveMessage = () => {
 				try {
-					console.log(1)
 					messaging.value.onMessage((payload) => {
 						console.log(payload)
 						currentMessage.value = payload
