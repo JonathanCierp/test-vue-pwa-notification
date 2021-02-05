@@ -21,7 +21,7 @@
 			HelloWorld
 		},
 		setup () {
-			const token = ref(null)
+			const token = ref("")
 
 			//@ts-ignore
 			if (!("Notification" in window)) {
