@@ -11,13 +11,14 @@ firebase.initializeApp({
 	measurementId: "G-2648EVM8FR"
 })
 
-firebase.messaging.setBackgroundMessageHandler((payload) => {
-	const title = "Hello world!"
+firebase.messaging().setBackgroundMessageHandler((payload) => {
+	console.log("[firebase-messaging-sw.js] Received background message ", payload)
+
+	const data = payload.data
+	const notificationTitle = data.title
 	const notificationOptions = {
-		body: "azd",
-		icon: "/img/logoPWA.png"
+		body: data.body
 	}
 
-	return self.registration.showNotification(title,
-		notificationOptions)
+	return self.registration.showNotification(notificationTitle, notificationOptions)
 })
