@@ -1,6 +1,7 @@
 <template>
 	<img alt="Vue logo" src="./assets/logo.png" />
 	<HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+	{{ token }}
 	<NotificationBox />
 </template>
 
@@ -13,6 +14,11 @@
 
 	export default defineComponent({
 		name: "App",
+		data() {
+			return {
+				token: ""
+			}
+		},
 		components: {
 			NotificationBox,
 			HelloWorld
@@ -23,18 +29,18 @@
 			if (!("Notification" in window)) {
 				alert("This browser does not support desktop notification")
 			} else if (Notification.permission === "granted") {
-				token = await firebase.messaging().getToken()
+				this.token = await firebase.messaging().getToken()
 			} else if (Notification.permission !== "denied") {
 				Notification.requestPermission().then(async function (permission) {
 					if (permission === "granted") {
-						token = await firebase.messaging().getToken()
+						this.token = await firebase.messaging().getToken()
 					}
-					console.log(token)
+					console.log(this.token)
 					//prompt("zaezea", token)
 				})
 			}
 			
-			console.log(token)
+			console.log(this.token)
 			//prompt("zaezea", token)
 		}
 	})
