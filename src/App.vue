@@ -20,7 +20,7 @@
 			NotificationBox,
 			HelloWorld
 		},
-		async setup () {
+		setup () {
 			const token = ref(null)
 
 			//@ts-ignore
@@ -30,15 +30,19 @@
 				//@ts-ignore
 			} else if (Notification.permission === "granted") {
 				//@ts-ignore
-				token.value = await firebase.messaging().getToken()
+				firebase.messaging().getToken().then(tokenF => {
+					token.value = tokenF
+				})
 				//@ts-ignore
 			} else if (Notification.permission !== "denied") {
 				//@ts-ignore
-				await Notification.requestPermission().then(async function (permission: any) {
+				Notification.requestPermission().then(function (permission: any) {
 					//@ts-ignore
 					if (permission === "granted") {
 						//@ts-ignore
-						token.value = await firebase.messaging().getToken()
+						firebase.messaging().getToken().then(tokenF => {
+							token.value = tokenF
+						})
 					}
 					console.log(token.value)
 				})
