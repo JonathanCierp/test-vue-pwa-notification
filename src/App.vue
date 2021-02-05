@@ -6,7 +6,7 @@
 </template>
 
 <script lang="ts">
-	import { defineComponent } from "vue"
+	import { defineComponent, ref } from "vue"
 	import firebase from "firebase/app"
 	import "firebase/messaging"
 	import HelloWorld from "./components/HelloWorld.vue"
@@ -14,34 +14,30 @@
 
 	export default defineComponent({
 		name: "App",
-		data() {
-			return {
-				token: ""
-			}
-		},
 		components: {
 			NotificationBox,
 			HelloWorld
 		},
-		async created () {
-			let token: string = ""
+		setup () {
+			const token = ref(null)
 
 			if (!("Notification" in window)) {
 				alert("This browser does not support desktop notification")
 			} else if (Notification.permission === "granted") {
-				this.token = await firebase.messaging().getToken()
+				token.value = await firebase.messaging().getToken()
 			} else if (Notification.permission !== "denied") {
 				Notification.requestPermission().then(async function (permission) {
 					if (permission === "granted") {
-						this.token = await firebase.messaging().getToken()
+						token.value = await firebase.messaging().getToken()
 					}
-					console.log(this.token)
-					//prompt("zaezea", token)
+					console.log(token.value)
 				})
 			}
-			
-			console.log(this.token)
-			//prompt("zaezea", token)
+			console.log(token.value)
+
+			return {
+				token
+			}
 		}
 	})
 </script>
